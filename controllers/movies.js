@@ -5,8 +5,13 @@ const ValidationError = require('../errors/ValidationError');
 const { errorMessages } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
-    .then((movie) => res.send(movie))
+  const owner = req.user._id;
+
+  Movie.find({ owner })
+    .then((movies) => res.status(200).send(movies))
+    .catch((err) => {
+      throw new NotFoundError(err.message);
+    })
     .catch(next);
 };
 
@@ -52,7 +57,9 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
-      if (!movie) throw new NotFoundError(errorMessages.movieNotFound);
+      if (!movie) {
+        throw new NotFoundError(errorMessages.movieNotFound);
+      }
       if (req.user._id === movie.owner.toString()) {
         return movie.remove();
       }

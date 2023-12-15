@@ -16,10 +16,11 @@ module.exports.validationPostMovie = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().pattern(allowedUrl),
+    trailerLink: Joi.string().required().pattern(allowedUrl),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().pattern(allowedUrl),
-    movieId: Joi.string().required().pattern(allowedUrl),
+    movieId: Joi.string().required(),
   }),
 });
 

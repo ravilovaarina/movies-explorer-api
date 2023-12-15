@@ -33,6 +33,8 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(errorMessages.incorrectReqData));
+      } else if (err.code === 11000) {
+        next(new ConflictError(errorMessages.createUser));
       } else {
         next(err);
       }
@@ -78,10 +80,10 @@ module.exports.createUser = (req, res, next) => {
       },
     )
     .catch((err) => {
-      if (err.code === 11000) {
-        next(new ConflictError(errorMessages.createUser));
-      } else if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         next(new ValidationError(errorMessages.incorrectReqData));
+      } else if (err.code === 11000) {
+        next(new ConflictError(errorMessages.createUser));
       } else {
         next(err);
       }
