@@ -20,7 +20,7 @@ module.exports.validationPostMovie = celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().pattern(allowedUrl),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 });
 
