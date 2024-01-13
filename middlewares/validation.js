@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-const { allowedUrl } = require('../utils/constants');
+// const { allowedUrl } = require('../utils/constants');
 
 module.exports.validationUpdateUser = celebrate({
   body: Joi.object().keys({
