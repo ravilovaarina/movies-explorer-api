@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-// const { allowedUrl } = require('../utils/constants');
+const { allowedUrl } = require('../utils/constants');
 
 module.exports.validationUpdateUser = celebrate({
   body: Joi.object().keys({
@@ -15,11 +15,11 @@ module.exports.validationPostMovie = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().url(),
-    trailerLink: Joi.string().required().url(),
+    image: Joi.string().required().pattern(allowedUrl),
+    trailerLink: Joi.string().required().pattern(allowedUrl),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().url(),
+    thumbnail: Joi.string().required().pattern(allowedUrl),
     movieId: Joi.number().required(),
   }),
 });
