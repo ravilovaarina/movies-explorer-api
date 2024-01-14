@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
-// const ValidationError = require('../errors/ValidationError');
+const ValidationError = require('../errors/ValidationError');
 const { errorMessages } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
@@ -15,7 +15,7 @@ module.exports.getMovies = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.createMovie = (req, res) => {
+module.exports.createMovie = (req, res, next) => {
   const {
     country,
     director,
@@ -44,14 +44,14 @@ module.exports.createMovie = (req, res) => {
     movieId,
     owner,
   })
-    .then((movie) => res.send(movie));
-  // .catch((err) => {
-  //   if (err.name === 'ValidationError') {
-  //     next(new ValidationError(errorMessages.createMovie));
-  //   } else {
-  //     next(err);
-  //   }
-  // });
+    .then((movie) => res.send(movie))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError(errorMessages.createMovie));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.deleteMovie = (req, res, next) => {
